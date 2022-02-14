@@ -8,7 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.blog.sample.mappers.UserMapper;
 import com.blog.sample.models.User;
+import com.blog.sample.models.UserDTO;
 import com.blog.sample.repositories.UserJpaRepository;
 
 @Service
@@ -16,6 +18,9 @@ public class UserService {
 
 	@Autowired
 	UserJpaRepository userJpaRepository;
+
+	@Autowired
+	UserMapper userMapper;
 
 	public List<User> getAll() {
 		return userJpaRepository.findAll();
@@ -38,12 +43,13 @@ public class UserService {
 		return existingUser;
 	}
 
-	public String updateById(String id) {
-		return "updateById : " + id;
-	}
-
-	public String updateFieldById(String id) {
-		return "updateFieldById : " + id;
+	public User updateById(Long id, UserDTO userDTO) {
+		User existingUser = userJpaRepository.findById(id).orElse(null);
+		if (existingUser != null) {
+			userMapper.updateCustomerFromDto(userDTO, existingUser);
+			return userJpaRepository.save(existingUser);
+		}
+		return existingUser;
 	}
 
 	public void deleteById(Long id) {
