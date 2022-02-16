@@ -1,11 +1,15 @@
 package com.blog.sample.models;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,8 +25,7 @@ import lombok.Data;
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "address"})
 public class User {
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotBlank
@@ -33,8 +36,9 @@ public class User {
 	@Column(unique = true)
 	public String email;
 
-	@OneToOne(mappedBy = "user")
-	private Address address;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "user_id")
+	private Set<Address> address;
 
 	@JsonIgnore
 	private transient String testTransient;

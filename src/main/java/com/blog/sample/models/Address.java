@@ -9,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 @Data
@@ -18,21 +16,19 @@ import lombok.Data;
 @Table(name = "address")
 public class Address {
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "users_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@Column
-	public String street;
+	private String street;
 
 	@Column
-	public String city;
+	private String city;
 
 	@Column
-	public String state;
+	private String state;
 }

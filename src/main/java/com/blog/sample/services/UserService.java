@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.blog.sample.mappers.UserMapper;
 import com.blog.sample.models.User;
 import com.blog.sample.models.UserDTO;
+import com.blog.sample.repositories.AddressJpaRepository;
 import com.blog.sample.repositories.UserJpaRepository;
 
 @Service
@@ -18,6 +19,9 @@ public class UserService {
 
 	@Autowired
 	UserJpaRepository userJpaRepository;
+
+	@Autowired
+	AddressJpaRepository addressJpaRepository;
 
 	@Autowired
 	UserMapper userMapper;
